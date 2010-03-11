@@ -49,6 +49,7 @@ module SourceControl
         git("reset", ["--hard"])
       end
       git_update_submodule
+      git_update_with_giternal
     end
 
     def up_to_date?(reasons = [])
@@ -118,6 +119,8 @@ module SourceControl
       git("submodule", ["update"])
     end
 
+    def git_update_with_giternal
+      execute_in_local_copy(["giternal", "update"], {})
+    end
   end
-
 end
