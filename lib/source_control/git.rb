@@ -1,3 +1,4 @@
+# TODO: Perform giternal related tasks only if the project config has the appropriate flag set to true
 module SourceControl
 
   class Git < AbstractAdapter
@@ -69,6 +70,7 @@ module SourceControl
       git_output = git('log', ['--pretty=raw', '--stat', "HEAD..origin/#{current_branch}"])
       revisions = Git::LogParser.new.parse(git_output)
       revisions = filter_revisions_by_subdirectory(revisions, @watch_for_changes_in) if @watch_for_changes_in
+      revisions += Git::LogParser.new.parse(execute_in_local_copy(["giternal", "sync"], {}))
       revisions
     end
 
